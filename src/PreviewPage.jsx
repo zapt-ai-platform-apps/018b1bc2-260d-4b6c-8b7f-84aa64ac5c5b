@@ -5,14 +5,18 @@ import JSZip from 'jszip';
 function PreviewPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const generatedCode = location.state?.generatedCode || '';
+  const generatedCode = location.state?.generatedCode || {};
+
   const [loading, setLoading] = createSignal(false);
 
   const downloadSourceCode = async () => {
+    if (loading()) return;
     setLoading(true);
     try {
       const zip = new JSZip();
-      zip.file('index.html', generatedCode);
+      zip.file('index.html', generatedCode.html || '');
+      zip.file('styles.css', generatedCode.css || '');
+      zip.file('script.js', generatedCode.js || '');
       const content = await zip.generateAsync({ type: 'blob' });
       const url = URL.createObjectURL(content);
       const link = document.createElement('a');
@@ -22,9 +26,39 @@ function PreviewPage() {
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error generating ZIP file:', error);
+      alert('حدث خطأ أثناء تنزيل السورس. الرجاء المحاولة مرة أخرى.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const createBlobURL = () => {
+    const htmlContent = generatedCode.html || '';
+    const cssContent = generatedCode.css || '';
+    const jsContent = generatedCode.js || '';
+
+    const fullHTML = `
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معاينة الموقع</title>
+<style>
+${cssContent}
+</style>
+</head>
+<body>
+${htmlContent}
+<script>
+${jsContent}
+</script>
+</body>
+</html>
+    `;
+
+    const blob = new Blob([fullHTML], { type: 'text/html' });
+    return URL.createObjectURL(blob);
   };
 
   return (
@@ -52,7 +86,7 @@ function PreviewPage() {
         </div>
         <div class="bg-gray-100 p-4 rounded-lg overflow-y-auto" style={{ height: '500px' }}>
           <iframe
-            srcDoc={generatedCode}
+            src={createBlobURL()}
             class="w-full h-full rounded-lg"
             frameBorder="0"
             sandbox=""

@@ -33,7 +33,7 @@ function MainForm() {
     setLoading(true);
     try {
       const prompt = `
-قم بإنشاء كود مصدر HTML وCSS وJavaScript كامل لموقع إلكتروني احترافي باللغة العربية يتضمن ما يلي:
+قم بإنشاء الكود المصدري الكامل لموقع إلكتروني احترافي باللغة العربية يتضمن ما يلي:
 
 - عنوان الموقع: ${title()}
 - وصف الموقع: ${description()}
@@ -42,20 +42,34 @@ function MainForm() {
 - النمط أو التصميم المطلوب: ${style()}
 
 يجب أن يكون الكود:
+
 - متوافقًا مع معايير HTML5 وCSS3
 - تصميم متجاوب يعمل على جميع الأجهزة
 - استخدام أفضل الممارسات في كتابة الكود
+- فصل الكود إلى ملفات منفصلة كما يلي:
+  - index.html
+  - styles.css
+  - script.js
 - تضمين التعليقات في الكود لشرح الأقسام الرئيسية
+
+الرجاء تقديم النتيجة بصيغة JSON بالهيكل التالي:
+
+{
+  "html": "محتوى ملف index.html",
+  "css": "محتوى ملف styles.css",
+  "js": "محتوى ملف script.js"
+}
 
 لا تقم بتضمين أي نص إضافي غير المطلوب.
 `;
       const result = await createEvent('chatgpt_request', {
         prompt: prompt,
-        response_type: 'text',
+        response_type: 'json',
       });
       navigate('/preview', { state: { generatedCode: result } });
     } catch (error) {
       console.error('Error generating website:', error);
+      alert('حدث خطأ أثناء إنشاء الموقع. الرجاء المحاولة مرة أخرى.');
     } finally {
       setLoading(false);
     }
@@ -120,7 +134,7 @@ function MainForm() {
                       type="checkbox"
                       checked={sections().includes(section)}
                       onChange={() => toggleSection(section)}
-                      class="form-checkbox h-5 w-5 text-blue-600"
+                      class="form-checkbox h-5 w-5 text-blue-600 cursor-pointer"
                     />
                     <span class="text-gray-700">{section}</span>
                   </label>
