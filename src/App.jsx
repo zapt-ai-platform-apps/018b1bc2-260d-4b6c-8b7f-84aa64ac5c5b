@@ -54,52 +54,52 @@ function App() {
   };
 
   return (
-    <div class="min-h-screen bg-gray-100 p-6">
-      <div class="max-w-3xl mx-auto bg-white p-8 rounded shadow h-full">
-        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">منشئ المواقع باستخدام الذكاء الاصطناعي</h1>
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
+      <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg h-full">
+        <h1 class="text-4xl font-bold mb-6 text-center text-blue-600">منشئ المواقع باستخدام الذكاء الاصطناعي</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleGenerateWebsite();
           }}
-          class="space-y-4"
+          class="space-y-6"
         >
           <div>
-            <label class="block mb-2 text-gray-700">عنوان الموقع:</label>
+            <label class="block mb-2 text-gray-700 font-medium">عنوان الموقع:</label>
             <input
               type="text"
               value={title()}
               onInput={(e) => setTitle(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
+              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
               required
             />
           </div>
           <div>
-            <label class="block mb-2 text-gray-700">وصف الموقع:</label>
+            <label class="block mb-2 text-gray-700 font-medium">وصف الموقع:</label>
             <textarea
               value={description()}
               onInput={(e) => setDescription(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
+              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
               rows="3"
               required
             ></textarea>
           </div>
           <div>
-            <label class="block mb-2 text-gray-700">محتوى الموقع:</label>
+            <label class="block mb-2 text-gray-700 font-medium">محتوى الموقع:</label>
             <textarea
               value={content()}
               onInput={(e) => setContent(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
+              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
               rows="5"
               required
             ></textarea>
           </div>
           <div>
-            <label class="block mb-2 text-gray-700">النمط أو التصميم المطلوب:</label>
+            <label class="block mb-2 text-gray-700 font-medium">النمط أو التصميم المطلوب:</label>
             <select
               value={style()}
               onInput={(e) => setStyle(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800 cursor-pointer"
+              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800 cursor-pointer"
               required
             >
               <option value="">اختر نمطًا</option>
@@ -110,7 +110,7 @@ function App() {
           </div>
           <button
             type="submit"
-            class={`w-full py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition duration-300 ease-in-out cursor-pointer ${
+            class={`w-full py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out cursor-pointer ${
               loading() ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             disabled={loading()}
@@ -120,22 +120,24 @@ function App() {
         </form>
 
         <Show when={generatedCode()}>
-          <div class="mt-8">
+          <div class="mt-10">
             <h2 class="text-2xl font-bold mb-4 text-gray-800">كود الموقع الناتج:</h2>
-            <pre class="bg-gray-200 p-4 rounded overflow-x-auto">
+            <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap">
               <code>{generatedCode()}</code>
             </pre>
             <div class="mt-6">
-              <h3 class="text-xl font-semibold mb-2 text-gray-800">معاينة الموقع:</h3>
-              <iframe
-                srcDoc={generatedCode()}
-                class="w-full h-96 border border-gray-300 rounded"
-                sandbox=""
-              ></iframe>
+              <h3 class="text-xl font-semibold mb-4 text-gray-800">معاينة الموقع:</h3>
+              <div class="border border-gray-300 rounded-lg overflow-hidden">
+                <iframe
+                  srcDoc={generatedCode()}
+                  class="w-full h-96"
+                  sandbox=""
+                ></iframe>
+              </div>
             </div>
             <button
               onClick={downloadSourceCode}
-              class="mt-4 w-full py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition duration-300 ease-in-out cursor-pointer"
+              class="mt-6 w-full py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out cursor-pointer"
             >
               تنزيل السورس
             </button>
