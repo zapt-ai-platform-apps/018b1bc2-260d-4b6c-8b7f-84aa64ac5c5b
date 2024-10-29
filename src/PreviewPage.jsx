@@ -74,7 +74,7 @@ ${jsContent}
   });
 
   return (
-    <div class="h-full bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
       <div class="w-full max-w-4xl bg-white p-4 rounded-lg shadow-lg h-full">
         <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">معاينة الموقع</h2>
         <div class="flex space-x-4 mb-6 justify-center">
