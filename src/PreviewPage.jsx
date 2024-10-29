@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from '@solidjs/router';
-import { createSignal, Show } from 'solid-js';
+import { createSignal, Show, onCleanup } from 'solid-js';
 import JSZip from 'jszip';
 
 function PreviewPage() {
@@ -8,15 +8,19 @@ function PreviewPage() {
   const generatedCode = location.state?.generatedCode || {};
 
   const [loading, setLoading] = createSignal(false);
+  const [previewURL, setPreviewURL] = createSignal('');
 
   const downloadSourceCode = async () => {
     if (loading()) return;
     setLoading(true);
     try {
       const zip = new JSZip();
-      zip.file('index.html', generatedCode.html || '');
-      zip.file('styles.css', generatedCode.css || '');
-      zip.file('script.js', generatedCode.js || '');
+
+      // Iterate over the generatedCode object and add files to the ZIP
+      Object.keys(generatedCode).forEach((filePath) => {
+        zip.file(filePath, generatedCode[filePath]);
+      });
+
       const content = await zip.generateAsync({ type: 'blob' });
       const url = URL.createObjectURL(content);
       const link = document.createElement('a');
@@ -32,10 +36,10 @@ function PreviewPage() {
     }
   };
 
-  const createBlobURL = () => {
-    const htmlContent = generatedCode.html || '';
-    const cssContent = generatedCode.css || '';
-    const jsContent = generatedCode.js || '';
+  const createPreview = () => {
+    const htmlContent = generatedCode['index.html'] || '';
+    const cssContent = generatedCode['css/styles.css'] || '';
+    const jsContent = generatedCode['js/script.js'] || '';
 
     const fullHTML = `
 <!DOCTYPE html>
@@ -61,8 +65,16 @@ ${jsContent}
     return URL.createObjectURL(blob);
   };
 
+  // Generate the preview URL and cleanup when component unmounts
+  const url = createPreview();
+  setPreviewURL(url);
+
+  onCleanup(() => {
+    URL.revokeObjectURL(previewURL());
+  });
+
   return (
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
+    <div class="h-full bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
       <div class="w-full max-w-4xl bg-white p-4 rounded-lg shadow-lg h-full">
         <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">معاينة الموقع</h2>
         <div class="flex space-x-4 mb-6 justify-center">
@@ -86,7 +98,7 @@ ${jsContent}
         </div>
         <div class="bg-gray-100 p-4 rounded-lg overflow-y-auto" style={{ height: '500px' }}>
           <iframe
-            src={createBlobURL()}
+            src={previewURL()}
             class="w-full h-full rounded-lg"
             frameBorder="0"
             sandbox=""

@@ -1,4 +1,4 @@
-import { createSignal, For, Show } from 'solid-js';
+import { createSignal, For } from 'solid-js';
 import { createEvent } from './supabaseClient';
 import { useNavigate } from '@solidjs/router';
 
@@ -33,7 +33,7 @@ function MainForm() {
     setLoading(true);
     try {
       const prompt = `
-قم بإنشاء الكود المصدري الكامل لموقع إلكتروني احترافي باللغة العربية يتضمن ما يلي:
+قم بإنشاء موقع إلكتروني احترافي كامل باللغة العربية يتضمن ما يلي:
 
 - عنوان الموقع: ${title()}
 - وصف الموقع: ${description()}
@@ -41,23 +41,27 @@ function MainForm() {
 - الأقسام المطلوبة: ${sections().join(', ')}
 - النمط أو التصميم المطلوب: ${style()}
 
-يجب أن يكون الكود:
+يجب أن يكون الموقع:
 
-- متوافقًا مع معايير HTML5 وCSS3
+- متوافقًا مع معايير HTML5 وCSS3 وJavaScript
 - تصميم متجاوب يعمل على جميع الأجهزة
 - استخدام أفضل الممارسات في كتابة الكود
-- فصل الكود إلى ملفات منفصلة كما يلي:
+- تنظيم الملفات في مجلدات بشكل احترافي كما يلي:
   - index.html
-  - styles.css
-  - script.js
+  - /css/styles.css
+  - /js/script.js
+  - /images (قم بتضمين أي صور افتراضية إذا لزم الأمر)
+  - /fonts (إذا تم استخدام خطوط مخصصة)
 - تضمين التعليقات في الكود لشرح الأقسام الرئيسية
+- استخدام ميثاق تسمية احترافي للمتغيرات والأصناف
 
 الرجاء تقديم النتيجة بصيغة JSON بالهيكل التالي:
 
 {
-  "html": "محتوى ملف index.html",
-  "css": "محتوى ملف styles.css",
-  "js": "محتوى ملف script.js"
+  "index.html": "محتوى ملف index.html",
+  "css/styles.css": "محتوى ملف styles.css",
+  "js/script.js": "محتوى ملف script.js",
+  // إذا كان هناك ملفات إضافية، قم بإضافتها بنفس الشكل
 }
 
 لا تقم بتضمين أي نص إضافي غير المطلوب.
@@ -84,7 +88,7 @@ function MainForm() {
   };
 
   return (
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
+    <div class="h-full bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
       <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg h-full">
         <h1 class="text-4xl font-bold mb-6 text-center text-blue-600">منشئ المواقع باستخدام الذكاء الاصطناعي</h1>
         <form
