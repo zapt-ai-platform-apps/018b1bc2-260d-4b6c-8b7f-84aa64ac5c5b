@@ -12,7 +12,8 @@
     "solid-js": "^1.8.22",
     "@solidjs/router": "^0.8.4",
     "@zapt/zapt-js": "^1.0.5",
-    "@sentry/browser": "8.35.0"
+    "@sentry/browser": "8.35.0",
+    "jszip": "^3.10.1"
   },
   "devDependencies": {
     "vite": "^5.4.7",

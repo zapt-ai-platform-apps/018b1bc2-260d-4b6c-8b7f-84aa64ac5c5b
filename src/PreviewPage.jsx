@@ -1,17 +1,20 @@
 import { useLocation, useNavigate } from '@solidjs/router';
 import { createSignal } from 'solid-js';
+import JSZip from 'jszip';
 
 function PreviewPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const generatedCode = location.state?.generatedCode || '';
 
-  const downloadSourceCode = () => {
-    const blob = new Blob([generatedCode], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
+  const downloadSourceCode = async () => {
+    const zip = new JSZip();
+    zip.file('index.html', generatedCode);
+    const content = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(content);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'index.html';
+    link.download = 'website.zip';
     link.click();
     URL.revokeObjectURL(url);
   };
