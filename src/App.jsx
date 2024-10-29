@@ -102,7 +102,7 @@ function App() {
               class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800 cursor-pointer"
               required
             >
-              <option value="">اختر نمطًا</option>
+              <option value="" disabled>اختر نمطًا</option>
               <For each={styles}>
                 {(styleOption) => <option value={styleOption}>{styleOption}</option>}
               </For>
@@ -125,16 +125,6 @@ function App() {
             <pre class="bg-gray-100 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap">
               <code>{generatedCode()}</code>
             </pre>
-            <div class="mt-6">
-              <h3 class="text-xl font-semibold mb-4 text-gray-800">معاينة الموقع:</h3>
-              <div class="border border-gray-300 rounded-lg overflow-hidden">
-                <iframe
-                  srcDoc={generatedCode()}
-                  class="w-full h-96"
-                  sandbox=""
-                ></iframe>
-              </div>
-            </div>
             <button
               onClick={downloadSourceCode}
               class="mt-6 w-full py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out cursor-pointer"
