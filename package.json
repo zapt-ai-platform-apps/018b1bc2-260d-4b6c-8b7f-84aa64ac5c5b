@@ -1,7 +1,7 @@
 {
-  "name": "solidjs-vite-tailwind-vercel",
+  "name": "new-app",
   "version": "1.0.0",
-  "description": "SolidJS app with Vite, Tailwind, and Vercel deployment",
+  "description": "SolidJS app with Vite and Tailwind, allows users to generate complete website source code using AI.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,9 +9,10 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "solid-js": "^1.8.22",
+    "@sentry/browser": "8.35.0",
+    "@solidjs/router": "^0.8.4",
     "@zapt/zapt-js": "^1.0.5",
-    "@sentry/browser": "8.35.0"
+    "solid-js": "^1.8.22"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

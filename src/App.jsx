@@ -22,7 +22,7 @@ function App() {
     setLoading(true);
     try {
       const prompt = `
-قم بإنشاء كود HTML لموقع إلكتروني احترافي باللغة العربية يحتوي على ما يلي:
+قم بإنشاء كود HTML كامل لموقع إلكتروني احترافي باللغة العربية يحتوي على ما يلي:
 
 - عنوان الموقع: ${title()}
 - وصف الموقع: ${description()}
@@ -43,11 +43,27 @@ function App() {
     }
   };
 
+  const downloadSourceCode = () => {
+    const blob = new Blob([generatedCode()], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'index.html';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div class="min-h-screen bg-gray-100 p-6">
       <div class="max-w-3xl mx-auto bg-white p-8 rounded shadow h-full">
         <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">منشئ المواقع باستخدام الذكاء الاصطناعي</h1>
-        <form onSubmit={(e) => { e.preventDefault(); handleGenerateWebsite(); }} class="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleGenerateWebsite();
+          }}
+          class="space-y-4"
+        >
           <div>
             <label class="block mb-2 text-gray-700">عنوان الموقع:</label>
             <input
@@ -87,14 +103,16 @@ function App() {
               required
             >
               <option value="">اختر نمطًا</option>
-              <For each={styles}>{(styleOption) => (
-                <option value={styleOption}>{styleOption}</option>
-              )}</For>
+              <For each={styles}>
+                {(styleOption) => <option value={styleOption}>{styleOption}</option>}
+              </For>
             </select>
           </div>
           <button
             type="submit"
-            class={`w-full py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition duration-300 ease-in-out cursor-pointer ${loading() ? 'opacity-50 cursor-not-allowed' : ''}`}
+            class={`w-full py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition duration-300 ease-in-out cursor-pointer ${
+              loading() ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
             disabled={loading()}
           >
             {loading() ? 'جاري الإنشاء...' : 'إنشاء الموقع'}
@@ -115,6 +133,12 @@ function App() {
                 sandbox=""
               ></iframe>
             </div>
+            <button
+              onClick={downloadSourceCode}
+              class="mt-4 w-full py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition duration-300 ease-in-out cursor-pointer"
+            >
+              تنزيل السورس
+            </button>
           </div>
         </Show>
       </div>
