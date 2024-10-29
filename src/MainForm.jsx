@@ -89,14 +89,14 @@ function MainForm() {
 
   return (
     <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
-      <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg h-full">
+      <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg h-full text-gray-800">
         <h1 class="text-4xl font-bold mb-6 text-center text-blue-600">منشئ المواقع باستخدام الذكاء الاصطناعي</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleGenerateWebsite();
           }}
-          class="space-y-6"
+          class="space-y-6 h-full"
         >
           <div>
             <label class="block mb-2 text-gray-700 font-medium">عنوان الموقع:</label>
@@ -167,7 +167,9 @@ function MainForm() {
             }`}
             disabled={loading()}
           >
-            {loading() ? 'جاري الإنشاء...' : 'إنشاء الموقع'}
+            <Show when={!loading()} fallback="جاري الإنشاء...">
+              إنشاء الموقع
+            </Show>
           </button>
         </form>
       </div>

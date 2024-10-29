@@ -14,7 +14,6 @@ Sentry.init({
       projectId: import.meta.env.VITE_PUBLIC_APP_ID
     }
   },
-  integrations: [Sentry.browserTracingIntegration()],
 });
 
 window.progressierAppRuntimeSettings = {

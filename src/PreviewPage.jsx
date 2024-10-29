@@ -75,7 +75,7 @@ ${jsContent}
 
   return (
     <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
-      <div class="w-full max-w-4xl bg-white p-4 rounded-lg shadow-lg h-full">
+      <div class="w-full max-w-4xl bg-white p-4 rounded-lg shadow-lg h-full text-gray-800">
         <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">معاينة الموقع</h2>
         <div class="flex space-x-4 mb-6 justify-center">
           <button
@@ -91,12 +91,12 @@ ${jsContent}
             }`}
             disabled={loading()}
           >
-            <Show when={loading()} fallback="تنزيل السورس">
-              جاري التحضير...
+            <Show when={!loading()} fallback="جاري التحضير...">
+              تنزيل السورس
             </Show>
           </button>
         </div>
-        <div class="bg-gray-100 p-4 rounded-lg overflow-y-auto" style={{ height: '500px' }}>
+        <div class="bg-gray-100 p-4 rounded-lg overflow-y-auto h-full">
           <iframe
             src={previewURL()}
             class="w-full h-full rounded-lg"
