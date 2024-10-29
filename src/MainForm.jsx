@@ -1,4 +1,4 @@
-import { createSignal, For } from 'solid-js';
+import { createSignal, For, Show } from 'solid-js';
 import { createEvent } from './supabaseClient';
 import { useNavigate } from '@solidjs/router';
 
@@ -6,15 +6,24 @@ function MainForm() {
   const [title, setTitle] = createSignal('');
   const [description, setDescription] = createSignal('');
   const [content, setContent] = createSignal('');
+  const [sections, setSections] = createSignal([]);
   const [style, setStyle] = createSignal('');
   const [loading, setLoading] = createSignal(false);
 
   const styles = [
-    'نمط حديث',
-    'تصميم كلاسيكي',
-    'واجهة بسيطة',
-    'تصميم احترافي',
-    'نمط داكن',
+    'حداثي',
+    'كلاسيكي',
+    'بسيط',
+    'احترافي',
+    'داكن',
+  ];
+
+  const availableSections = [
+    'الصفحة الرئيسية',
+    'من نحن',
+    'الخدمات',
+    'المدونة',
+    'اتصل بنا',
   ];
 
   const navigate = useNavigate();
@@ -24,14 +33,21 @@ function MainForm() {
     setLoading(true);
     try {
       const prompt = `
-قم بإنشاء كود HTML كامل لموقع إلكتروني احترافي باللغة العربية يحتوي على ما يلي:
+قم بإنشاء كود مصدر HTML وCSS وJavaScript كامل لموقع إلكتروني احترافي باللغة العربية يتضمن ما يلي:
 
 - عنوان الموقع: ${title()}
 - وصف الموقع: ${description()}
 - محتوى الموقع: ${content()}
+- الأقسام المطلوبة: ${sections().join(', ')}
 - النمط أو التصميم المطلوب: ${style()}
 
-يجب أن يكون الكود متوافقًا مع معايير HTML5 وCSS3، ويتضمن تنسيقات مناسبة. لا تقم بتضمين أي نص إضافي غير المطلوب.
+يجب أن يكون الكود:
+- متوافقًا مع معايير HTML5 وCSS3
+- تصميم متجاوب يعمل على جميع الأجهزة
+- استخدام أفضل الممارسات في كتابة الكود
+- تضمين التعليقات في الكود لشرح الأقسام الرئيسية
+
+لا تقم بتضمين أي نص إضافي غير المطلوب.
 `;
       const result = await createEvent('chatgpt_request', {
         prompt: prompt,
@@ -42,6 +58,14 @@ function MainForm() {
       console.error('Error generating website:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const toggleSection = (section) => {
+    if (sections().includes(section)) {
+      setSections(sections().filter((s) => s !== section));
+    } else {
+      setSections([...sections(), section]);
     }
   };
 
@@ -85,6 +109,24 @@ function MainForm() {
               rows="5"
               required
             ></textarea>
+          </div>
+          <div>
+            <label class="block mb-2 text-gray-700 font-medium">الأقسام المطلوبة:</label>
+            <div class="flex flex-wrap gap-4">
+              <For each={availableSections}>
+                {(section) => (
+                  <label class="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={sections().includes(section)}
+                      onChange={() => toggleSection(section)}
+                      class="form-checkbox h-5 w-5 text-blue-600"
+                    />
+                    <span class="text-gray-700">{section}</span>
+                  </label>
+                )}
+              </For>
+            </div>
           </div>
           <div>
             <label class="block mb-2 text-gray-700 font-medium">النمط أو التصميم المطلوب:</label>

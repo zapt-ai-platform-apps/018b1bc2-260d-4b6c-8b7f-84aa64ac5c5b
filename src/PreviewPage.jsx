@@ -1,22 +1,30 @@
 import { useLocation, useNavigate } from '@solidjs/router';
-import { createSignal } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import JSZip from 'jszip';
 
 function PreviewPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const generatedCode = location.state?.generatedCode || '';
+  const [loading, setLoading] = createSignal(false);
 
   const downloadSourceCode = async () => {
-    const zip = new JSZip();
-    zip.file('index.html', generatedCode);
-    const content = await zip.generateAsync({ type: 'blob' });
-    const url = URL.createObjectURL(content);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'website.zip';
-    link.click();
-    URL.revokeObjectURL(url);
+    setLoading(true);
+    try {
+      const zip = new JSZip();
+      zip.file('index.html', generatedCode);
+      const content = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(content);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'website.zip';
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error generating ZIP file:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,9 +40,14 @@ function PreviewPage() {
           </button>
           <button
             onClick={downloadSourceCode}
-            class="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out cursor-pointer"
+            class={`px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out cursor-pointer ${
+              loading() ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            disabled={loading()}
           >
-            تنزيل السورس
+            <Show when={loading()} fallback="تنزيل السورس">
+              جاري التحضير...
+            </Show>
           </button>
         </div>
         <div class="bg-gray-100 p-4 rounded-lg overflow-y-auto" style={{ height: '500px' }}>

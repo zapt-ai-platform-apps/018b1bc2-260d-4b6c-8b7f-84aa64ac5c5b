@@ -1,7 +1,7 @@
 {
   "name": "website-generator-ai",
   "version": "1.0.0",
-  "description": "SolidJS app with Vite and Tailwind, allows users to generate complete website source code using AI.",
+  "description": "SolidJS app with Vite and Tailwind, allows users to generate complete professional website source code using AI.",
   "type": "module",
   "scripts": {
     "dev": "vite",

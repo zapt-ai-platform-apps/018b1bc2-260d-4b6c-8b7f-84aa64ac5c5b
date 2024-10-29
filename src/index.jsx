@@ -3,6 +3,7 @@ import App from './App';
 import './index.css';
 import * as Sentry from "@sentry/browser";
 import { Router } from '@solidjs/router';
+import { onMount } from 'solid-js';
 
 Sentry.init({
   dsn: import.meta.env.VITE_PUBLIC_SENTRY_DSN,
@@ -12,7 +13,8 @@ Sentry.init({
       type: 'frontend',
       projectId: import.meta.env.VITE_PUBLIC_APP_ID
     }
-  }
+  },
+  integrations: [Sentry.browserTracingIntegration()],
 });
 
 window.progressierAppRuntimeSettings = {
@@ -21,10 +23,13 @@ window.progressierAppRuntimeSettings = {
   name: "منشئ المواقع باستخدام الذكاء الاصطناعي",
   shortName: "منشئ المواقع"
 };
-let script = document.createElement('script');
-script.setAttribute('src', 'https://progressier.app/z8yY3IKmfpDIw3mSncPh/script.js');
-script.setAttribute('defer', 'true');
-document.querySelector('head').appendChild(script);
+
+onMount(() => {
+  let script = document.createElement('script');
+  script.setAttribute('src', 'https://progressier.app/z8yY3IKmfpDIw3mSncPh/script.js');
+  script.setAttribute('defer', 'true');
+  document.querySelector('head').appendChild(script);
+});
 
 render(() => (
   <Router>
