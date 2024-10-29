@@ -1,4 +1,4 @@
-import { createSignal, Show } from 'solid-js';
+import { createSignal, Show, For } from 'solid-js';
 import { createEvent } from './supabaseClient';
 
 function App() {
@@ -9,7 +9,16 @@ function App() {
   const [generatedCode, setGeneratedCode] = createSignal('');
   const [loading, setLoading] = createSignal(false);
 
+  const styles = [
+    'نمط حديث',
+    'تصميم كلاسيكي',
+    'واجهة بسيطة',
+    'تصميم احترافي',
+    'نمط داكن',
+  ];
+
   const handleGenerateWebsite = async () => {
+    if (loading()) return;
     setLoading(true);
     try {
       const prompt = `
@@ -24,7 +33,7 @@ function App() {
 `;
       const result = await createEvent('chatgpt_request', {
         prompt: prompt,
-        response_type: 'text'
+        response_type: 'text',
       });
       setGeneratedCode(result);
     } catch (error) {
@@ -45,7 +54,7 @@ function App() {
               type="text"
               value={title()}
               onInput={(e) => setTitle(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border"
+              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
               required
             />
           </div>
@@ -54,7 +63,7 @@ function App() {
             <textarea
               value={description()}
               onInput={(e) => setDescription(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border"
+              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
               rows="3"
               required
             ></textarea>
@@ -64,20 +73,24 @@ function App() {
             <textarea
               value={content()}
               onInput={(e) => setContent(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border"
+              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
               rows="5"
               required
             ></textarea>
           </div>
           <div>
             <label class="block mb-2 text-gray-700">النمط أو التصميم المطلوب:</label>
-            <input
-              type="text"
+            <select
               value={style()}
               onInput={(e) => setStyle(e.target.value)}
-              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border"
+              class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800 cursor-pointer"
               required
-            />
+            >
+              <option value="">اختر نمطًا</option>
+              <For each={styles}>{(styleOption) => (
+                <option value={styleOption}>{styleOption}</option>
+              )}</For>
+            </select>
           </div>
           <button
             type="submit"
