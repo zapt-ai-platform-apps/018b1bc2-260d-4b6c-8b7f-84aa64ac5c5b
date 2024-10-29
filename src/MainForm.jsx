@@ -46,7 +46,7 @@ function MainForm() {
   };
 
   return (
-    <div class="h-full bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
       <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg h-full">
         <h1 class="text-4xl font-bold mb-6 text-center text-blue-600">منشئ المواقع باستخدام الذكاء الاصطناعي</h1>
         <form
