@@ -16,6 +16,9 @@ function MainForm() {
     'بسيط',
     'احترافي',
     'داكن',
+    'إبداعي',
+    'نظيف',
+    'ملون',
   ];
 
   const availableSections = [
@@ -24,6 +27,9 @@ function MainForm() {
     'الخدمات',
     'المدونة',
     'اتصل بنا',
+    'معرض الصور',
+    'الشهادات',
+    'الأسئلة الشائعة',
   ];
 
   const navigate = useNavigate();
@@ -88,49 +94,51 @@ function MainForm() {
   };
 
   return (
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
-      <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg h-full text-gray-800">
-        <h1 class="text-4xl font-bold mb-6 text-center text-blue-600">منشئ المواقع باستخدام الذكاء الاصطناعي</h1>
+    <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 flex flex-col items-center p-6 text-gray-800">
+      <div class="w-full max-w-5xl bg-white p-8 rounded-lg shadow-2xl h-full">
+        <h1 class="text-4xl font-extrabold mb-8 text-center text-indigo-600">
+          منشئ المواقع باستخدام الذكاء الاصطناعي
+        </h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleGenerateWebsite();
           }}
-          class="space-y-6 h-full"
+          class="space-y-8 h-full"
         >
           <div>
-            <label class="block mb-2 text-gray-700 font-medium">عنوان الموقع:</label>
+            <label class="block mb-2 text-lg font-semibold">عنوان الموقع:</label>
             <input
               type="text"
               value={title()}
               onInput={(e) => setTitle(e.target.value)}
-              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
+              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 box-border text-gray-800"
               required
             />
           </div>
           <div>
-            <label class="block mb-2 text-gray-700 font-medium">وصف الموقع:</label>
+            <label class="block mb-2 text-lg font-semibold">وصف الموقع:</label>
             <textarea
               value={description()}
               onInput={(e) => setDescription(e.target.value)}
-              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
+              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 box-border text-gray-800"
               rows="3"
               required
             ></textarea>
           </div>
           <div>
-            <label class="block mb-2 text-gray-700 font-medium">محتوى الموقع:</label>
+            <label class="block mb-2 text-lg font-semibold">محتوى الموقع:</label>
             <textarea
               value={content()}
               onInput={(e) => setContent(e.target.value)}
-              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800"
+              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 box-border text-gray-800"
               rows="5"
               required
             ></textarea>
           </div>
           <div>
-            <label class="block mb-2 text-gray-700 font-medium">الأقسام المطلوبة:</label>
-            <div class="flex flex-wrap gap-4">
+            <label class="block mb-4 text-lg font-semibold">الأقسام المطلوبة:</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
               <For each={availableSections}>
                 {(section) => (
                   <label class="flex items-center space-x-2 cursor-pointer">
@@ -138,7 +146,7 @@ function MainForm() {
                       type="checkbox"
                       checked={sections().includes(section)}
                       onChange={() => toggleSection(section)}
-                      class="form-checkbox h-5 w-5 text-blue-600 cursor-pointer"
+                      class="form-checkbox h-5 w-5 text-indigo-600 cursor-pointer"
                     />
                     <span class="text-gray-700">{section}</span>
                   </label>
@@ -147,22 +155,26 @@ function MainForm() {
             </div>
           </div>
           <div>
-            <label class="block mb-2 text-gray-700 font-medium">النمط أو التصميم المطلوب:</label>
+            <label class="block mb-2 text-lg font-semibold">النمط أو التصميم المطلوب:</label>
             <select
               value={style()}
               onInput={(e) => setStyle(e.target.value)}
-              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 box-border text-gray-800 cursor-pointer"
+              class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 box-border text-gray-800 cursor-pointer"
               required
             >
-              <option value="" disabled>اختر نمطًا</option>
+              <option value="" disabled>
+                اختر نمطًا
+              </option>
               <For each={styles}>
-                {(styleOption) => <option value={styleOption}>{styleOption}</option>}
+                {(styleOption) => (
+                  <option value={styleOption}>{styleOption}</option>
+                )}
               </For>
             </select>
           </div>
           <button
             type="submit"
-            class={`w-full py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out cursor-pointer ${
+            class={`w-full py-4 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer ${
               loading() ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             disabled={loading()}

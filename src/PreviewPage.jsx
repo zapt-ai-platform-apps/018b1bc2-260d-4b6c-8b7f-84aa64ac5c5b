@@ -74,19 +74,21 @@ ${jsContent}
   });
 
   return (
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center p-6">
-      <div class="w-full max-w-4xl bg-white p-4 rounded-lg shadow-lg h-full text-gray-800">
-        <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">معاينة الموقع</h2>
+    <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 flex flex-col items-center p-6 text-gray-800">
+      <div class="w-full max-w-5xl bg-white p-4 rounded-lg shadow-2xl h-full">
+        <h2 class="text-3xl font-extrabold mb-6 text-center text-indigo-600">
+          معاينة الموقع
+        </h2>
         <div class="flex space-x-4 mb-6 justify-center">
           <button
             onClick={() => navigate(-1)}
-            class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out cursor-pointer"
+            class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
           >
             رجوع
           </button>
           <button
             onClick={downloadSourceCode}
-            class={`px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out cursor-pointer ${
+            class={`px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer ${
               loading() ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             disabled={loading()}
