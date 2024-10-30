@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from '@solidjs/router';
-import { createSignal, Show, onCleanup } from 'solid-js';
+import { createSignal, Show, onCleanup, onMount } from 'solid-js';
 import JSZip from 'jszip';
 
 function PreviewPage() {
@@ -16,7 +16,7 @@ function PreviewPage() {
     try {
       const zip = new JSZip();
 
-      // Iterate over the generatedCode object and add files to the ZIP
+      // Add files to the ZIP
       Object.keys(generatedCode).forEach((filePath) => {
         zip.file(filePath, generatedCode[filePath]);
       });
@@ -65,9 +65,10 @@ ${jsContent}
     return URL.createObjectURL(blob);
   };
 
-  // Generate the preview URL and cleanup when component unmounts
-  const url = createPreview();
-  setPreviewURL(url);
+  onMount(() => {
+    const url = createPreview();
+    setPreviewURL(url);
+  });
 
   onCleanup(() => {
     URL.revokeObjectURL(previewURL());
@@ -79,7 +80,7 @@ ${jsContent}
         <h2 class="text-3xl font-extrabold mb-6 text-center text-indigo-600">
           معاينة الموقع
         </h2>
-        <div class="flex space-x-4 mb-6 justify-center">
+        <div class="flex flex-wrap justify-center mb-6 space-x-4">
           <button
             onClick={() => navigate(-1)}
             class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
@@ -93,7 +94,7 @@ ${jsContent}
             }`}
             disabled={loading()}
           >
-            <Show when={!loading()} fallback="جاري التحضير...">
+            <Show when={!loading()} fallback={<span>جاري التحضير...</span>}>
               تنزيل السورس
             </Show>
           </button>

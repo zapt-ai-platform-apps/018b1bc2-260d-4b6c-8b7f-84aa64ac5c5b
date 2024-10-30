@@ -179,7 +179,7 @@ function MainForm() {
             }`}
             disabled={loading()}
           >
-            <Show when={!loading()} fallback="جاري الإنشاء...">
+            <Show when={!loading()} fallback={<span>جاري الإنشاء...</span>}>
               إنشاء الموقع
             </Show>
           </button>
